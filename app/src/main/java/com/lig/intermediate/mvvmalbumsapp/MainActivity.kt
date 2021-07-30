@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import com.lig.intermediate.mvvmalbumsapp.databinding.ActivityMainBinding
 import com.lig.intermediate.mvvmalbumsapp.features.album.AlbumFragment
 import com.lig.intermediate.mvvmalbumsapp.features.bookmarks.BookmarksFragment
-import java.lang.IllegalArgumentException
 
 
 /*
@@ -47,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         selectFragment(selectedFragment)
-        binding.bottomNav.setOnItemSelectedListener { item->
+        binding.bottomNav.setOnItemSelectedListener { item ->
             val fragment = when (item.itemId) {
                 R.id.nav_album -> albumFragment
                 R.id.nav_bookmarks -> bookmarksFragment
