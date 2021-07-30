@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">MVVMAlbumsApp</string>
+    <string name="retry">Retry</string>
+    <string name="refresh">Refresh</string>
+    <string name="no_bookmarks">No bookmarks</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="album">Album</string>
+
 </resources>
