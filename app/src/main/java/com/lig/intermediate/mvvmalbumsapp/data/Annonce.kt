@@ -8,7 +8,7 @@ data class Annonce(
     @PrimaryKey val id: Int = 0,
     val title: String?,
     val albumId: Int,
-    val thumbnailUrl:String?,
-    val Url:String?,
+    val thumbnailUrl: String?,
+    val Url: String?,
     val isBookMarked: Boolean
 )
