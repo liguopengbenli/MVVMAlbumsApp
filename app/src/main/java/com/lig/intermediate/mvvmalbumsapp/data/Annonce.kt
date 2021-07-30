@@ -9,6 +9,6 @@ data class Annonce(
     val title: String?,
     val albumId: Int,
     val thumbnailUrl: String?,
-    val Url: String?,
+    val url: String?,
     val isBookMarked: Boolean
 )

@@ -24,11 +24,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/album_id"
+        android:id="@+id/text_view_album_id"
         android:layout_width="@dimen/album_id_width"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/small_margin"
-        android:textColor="#fff"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_view_bookmark"
         tools:text="@string/album_id_text_fake" />

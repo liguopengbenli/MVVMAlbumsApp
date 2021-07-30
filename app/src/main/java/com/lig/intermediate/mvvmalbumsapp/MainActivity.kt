@@ -1,6 +1,7 @@
 package com.lig.intermediate.mvvmalbumsapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.lig.intermediate.mvvmalbumsapp.databinding.ActivityMainBinding
@@ -39,11 +40,13 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, albumFragment, TAG_ALBUM_FRAGMENT)
                 .add(R.id.fragment_container, bookmarksFragment, TAG_BOOKMARKS_FRAGMENT)
+                .commit()
         } else {
             albumFragment =
                 supportFragmentManager.findFragmentByTag(TAG_ALBUM_FRAGMENT) as AlbumFragment
             bookmarksFragment =
                 supportFragmentManager.findFragmentByTag(TAG_BOOKMARKS_FRAGMENT) as BookmarksFragment
+
             selectedIndex = savedInstanceState.getInt(KEY_SELECTED_INDEX, 0)
         }
 
@@ -61,6 +64,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun selectFragment(selectedFragment: Fragment) {
+        Log.i(TAG,"lig selectFragment")
         var transaction = supportFragmentManager.beginTransaction()
         fragments.forEachIndexed { index, fragment ->
             if (selectedFragment == fragment) {
@@ -81,6 +85,10 @@ class MainActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt(KEY_SELECTED_INDEX, selectedIndex)
+    }
+
+    companion object{
+        private const val TAG = "MainActivity"
     }
 
 }

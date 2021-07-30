@@ -7,3 +7,4 @@ data class AlbumsDto(
     val url: String?,
     val thumbnailUrl: String?
 )
+

@@ -8,5 +8,5 @@ interface AlbumsApi {
     }
 
     @GET("img/shared/technical-test.json")
-    suspend fun getAlbums(): AlbumsReponse
+    suspend fun getAlbums(): List<AlbumsDto>
 }
