@@ -28,9 +28,12 @@
         android:layout_width="@dimen/album_id_width"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/small_margin"
-        android:textColor="@color/black"
+        android:maxLines="1"
+        android:textAlignment="viewEnd"
+        android:textColor="@color/item_text_color"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_view_bookmark"
+        app:layout_constraintEnd_toStartOf="@id/image_view_bookmark"
         tools:text="@string/album_id_text_fake" />
 
     <TextView
@@ -40,8 +43,8 @@
         android:layout_margin="@dimen/small_margin"
         android:ellipsize="end"
         android:maxLines="2"
-        android:textColor="#fff"
-        app:layout_constraintEnd_toStartOf="@id/image_view_bookmark"
+        android:textColor="@color/item_text_color"
+        app:layout_constraintEnd_toStartOf="@id/text_view_album_id"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/text_view_title_fake" />

@@ -2,7 +2,7 @@
 <resources>
     <dimen name="item_height">250dp</dimen>
     <dimen name="item_gradient_height">80dp</dimen>
-    <dimen name="album_id_width">0dp</dimen>
+    <dimen name="album_id_width">80dp</dimen>
     <dimen name="small_margin">8dp</dimen>
     <dimen name="bookmark_width">36dp</dimen>
     <dimen name="bookmark_height">36dp</dimen>
