@@ -6,12 +6,14 @@ import androidx.fragment.app.Fragment
 import com.lig.intermediate.mvvmalbumsapp.databinding.ActivityMainBinding
 import com.lig.intermediate.mvvmalbumsapp.features.album.AlbumFragment
 import com.lig.intermediate.mvvmalbumsapp.features.bookmarks.BookmarksFragment
+import dagger.hilt.android.AndroidEntryPoint
 
 
 /*
 * Not use navigation component because:
 * it will recreate fragment every time switch bottom nav bar
 * */
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
