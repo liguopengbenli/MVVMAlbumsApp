@@ -64,7 +64,6 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun selectFragment(selectedFragment: Fragment) {
-        Log.i(TAG,"lig selectFragment")
         var transaction = supportFragmentManager.beginTransaction()
         fragments.forEachIndexed { index, fragment ->
             if (selectedFragment == fragment) {

@@ -19,7 +19,6 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.i(TAG, "lig AlbumaFragment create")
 
         val binding = FragmentAlbumsBinding.bind(view)
         val albumsAdapter = AlbumsAdapter()
