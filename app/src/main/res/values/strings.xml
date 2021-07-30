@@ -5,5 +5,8 @@
     <string name="no_bookmarks">No bookmarks</string>
     <string name="bookmarks">Bookmarks</string>
     <string name="album">Album</string>
+    <string name="title_bookmarks">Bookmarks</string>
+    <string name="title_album">Album</string>
+
 
 </resources>
