@@ -23,10 +23,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/button_retry"
-                android:layout_margin="8dp"
+                android:layout_margin="@dimen/small_margin"
                 android:gravity="center_horizontal"
                 android:visibility="gone"
-                tools:text="An error occurred"
+                tools:text="@string/text_view_error_fake"
                 tools:visibility="visible" />
 
             <Button
