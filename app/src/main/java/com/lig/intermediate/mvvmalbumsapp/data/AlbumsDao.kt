@@ -1,9 +1,6 @@
 package com.lig.intermediate.mvvmalbumsapp.data
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -17,5 +14,14 @@ interface AlbumsDao {
 
     @Query("DELETE FROM albums")
     suspend fun deleteAllAlbums()
+
+    @Update
+    suspend fun updateAnnonce(annonce: Annonce)
+
+    @Query("SELECT * FROM albums WHERE isBookMarked = 1 ")
+    fun getAllBookMarkedAnnonces(): Flow<List<Annonce>>
+
+    @Query("UPDATE albums SET isBookMarked = 0")
+    suspend fun resetAllBookmarks()
 
 }

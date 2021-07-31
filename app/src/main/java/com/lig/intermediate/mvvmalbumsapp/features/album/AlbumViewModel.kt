@@ -1,6 +1,5 @@
 package com.lig.intermediate.mvvmalbumsapp.features.album
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lig.intermediate.mvvmalbumsapp.data.AlbumsRepository
@@ -8,7 +7,10 @@ import com.lig.intermediate.mvvmalbumsapp.data.Annonce
 import com.lig.intermediate.mvvmalbumsapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,14 +33,13 @@ class AlbumViewModel @Inject constructor(
         }
     }
 
-
-    val albums = refreshTrigger.flatMapLatest { refresh->
+    val albums = refreshTrigger.flatMapLatest { refresh ->
         repository.getAlbums(
             onFetchSuccess = {
                 // Scroll to top when success
                 pendingScrollingToTopAfterRefresh = true
             },
-            onFetchFailed = { t->
+            onFetchFailed = { t ->
                 viewModelScope.launch {
                     eventChannel.send(Event.ShowErrorMessage(t))
                 }
@@ -57,15 +58,23 @@ class AlbumViewModel @Inject constructor(
         }
     }
 
-    sealed class Event{
-        data class ShowErrorMessage(val error: Throwable): Event()
+    fun onBookmarkClick(annonce: Annonce) {
+        val currentBookmarked = annonce.isBookMarked
+        val updateAnnonce = annonce.copy(isBookMarked = !currentBookmarked)
+        viewModelScope.launch {
+            repository.updateAnnonce(updateAnnonce)
+        }
+    }
+
+    sealed class Event {
+        data class ShowErrorMessage(val error: Throwable) : Event()
     }
 
     enum class Refresh {
         FORCE, NORMAL
     }
 
-    companion object{
+    companion object {
         private const val TAG = "AlbumViewModel"
     }
 }

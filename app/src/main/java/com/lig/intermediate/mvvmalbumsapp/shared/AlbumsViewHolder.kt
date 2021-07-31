@@ -10,7 +10,9 @@ import com.lig.intermediate.mvvmalbumsapp.databinding.ItemAlbumBinding
 
 
 class AlbumsViewHolder(
-    private val binding: ItemAlbumBinding
+    private val binding: ItemAlbumBinding,
+    private val onItemClick: (Int) -> Unit,
+    private val onBookmarkClick: (Int) -> Unit,
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(annonce: Annonce) {
 
@@ -36,6 +38,24 @@ class AlbumsViewHolder(
                 }
             )
 
+        }
+    }
+
+    init {
+        binding.apply {
+            root.setOnClickListener {
+                val position = bindingAdapterPosition
+                if(position != RecyclerView.NO_POSITION){ // important, because the item may be deleted
+                    onItemClick(position)
+                }
+            }
+
+            imageViewBookmark.setOnClickListener {
+                val position = bindingAdapterPosition
+                if(position != RecyclerView.NO_POSITION){ // important, because the item may be deleted
+                    onBookmarkClick(position)
+                }
+            }
         }
     }
 }

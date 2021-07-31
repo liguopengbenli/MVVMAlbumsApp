@@ -27,14 +27,22 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
         super.onViewCreated(view, savedInstanceState)
 
         val binding = FragmentAlbumsBinding.bind(view)
-        val albumsAdapter = AlbumsAdapter()
+        val albumsAdapter = AlbumsAdapter(
+            onItemClick = {
 
+            },
+            onBookmarkClick = { annonce ->
+                viewModel.onBookmarkClick(annonce)
+            }
+        )
 
         binding.apply {
             recyclerView.apply {
                 adapter = albumsAdapter
                 layoutManager = LinearLayoutManager(requireContext())
                 setHasFixedSize(true)
+                itemAnimator?.changeDuration = 0 //remove the effet click
+
             }
 
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {

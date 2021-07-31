@@ -57,6 +57,16 @@ class AlbumsRepository @Inject constructor(
             }
         )
 
+    suspend fun updateAnnonce(annonce: Annonce) {
+        albumsDao.updateAnnonce(annonce)
+    }
+
+    suspend fun resetAllBookMarks() {
+        albumsDao.resetAllBookmarks()
+    }
+
+    fun getAllBookMarkedAnnonces(): Flow<List<Annonce>> = albumsDao.getAllBookMarkedAnnonces()
+
     companion object {
         private const val TAG = "AlbumsRepository"
     }
