@@ -83,11 +83,6 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
         setHasOptionsMenu(true)
     }
 
-    override fun onStart() {
-        super.onStart()
-        viewModel.onStart()
-    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_album, menu)
     }

@@ -20,13 +20,19 @@ class AlbumViewModel @Inject constructor(
     private val eventChannel = Channel<Event>()
     val events = eventChannel.receiveAsFlow()
 
-    private val refreshTriggerChannel = Channel<Unit>()
+    private val refreshTriggerChannel = Channel<Refresh>()
     private val refreshTrigger = refreshTriggerChannel.receiveAsFlow()
 
     var pendingScrollingToTopAfterRefresh = false
 
+    init {
+        viewModelScope.launch {
+            refreshTriggerChannel.send(Refresh.FORCE)
+        }
+    }
 
-    val albums = refreshTrigger.flatMapLatest {
+
+    val albums = refreshTrigger.flatMapLatest { refresh->
         repository.getAlbums(
             onFetchSuccess = {
                 // Scroll to top when success
@@ -36,31 +42,27 @@ class AlbumViewModel @Inject constructor(
                 viewModelScope.launch {
                     eventChannel.send(Event.ShowErrorMessage(t))
                 }
-            }
+            },
+            forceRefresh = refresh == Refresh.FORCE
         )
     }.stateIn(viewModelScope, SharingStarted.Lazily, null)
     //convert to hot state flow, it can still be collected when user change fragment
 
 
+    fun onManualRefresh() {
+        if (albums.value !is Resource.Loading) {
+            viewModelScope.launch {
+                refreshTriggerChannel.send(Refresh.FORCE)
+            }
+        }
+    }
 
     sealed class Event{
         data class ShowErrorMessage(val error: Throwable): Event()
     }
 
-    fun onStart() {
-        if (albums.value !is Resource.Loading){
-            viewModelScope.launch {
-                refreshTriggerChannel.send(Unit)
-            }
-        }
-    }
-
-    fun onManualRefresh() {
-        if (albums.value !is Resource.Loading) {
-            viewModelScope.launch {
-                refreshTriggerChannel.send(Unit)
-            }
-        }
+    enum class Refresh {
+        FORCE, NORMAL
     }
 
     companion object{

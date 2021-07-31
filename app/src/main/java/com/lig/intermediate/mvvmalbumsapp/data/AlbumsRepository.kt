@@ -16,6 +16,7 @@ class AlbumsRepository @Inject constructor(
     private val albumsDao = albumsDb.albumsDao()
 
     fun getAlbums(
+        forceRefresh: Boolean,
         onFetchSuccess: () -> Unit,
         onFetchFailed: (Throwable) -> Unit
     ): Flow<Resource<List<Annonce>>> =
@@ -43,6 +44,9 @@ class AlbumsRepository @Inject constructor(
                     albumsDao.deleteAllAlbums()
                     albumsDao.insertAlbums(localAlbums)
                 }
+            },
+            shouldFetch = {
+                forceRefresh
             },
             onFetchSuccess = onFetchSuccess,
             onFetchFailed = { t ->
