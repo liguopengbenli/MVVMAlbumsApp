@@ -15,5 +15,7 @@ interface AlbumsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAlbums(albums: List<Annonce>)
 
+    @Query("DELETE FROM albums")
+    suspend fun deleteAllAlbums()
 
 }

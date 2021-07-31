@@ -8,6 +8,8 @@ import com.lig.intermediate.mvvmalbumsapp.data.Annonce
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,16 +17,8 @@ import javax.inject.Inject
 class AlbumViewModel @Inject constructor(
     private val repository: AlbumsRepository
 ) : ViewModel() {
-    private val albumsFlow = MutableStateFlow<List<Annonce>>(emptyList())
-    val albums: Flow<List<Annonce>> = albumsFlow
-
-    init {
-        viewModelScope.launch {
-            Log.i(TAG, "lig launch search")
-            val data = repository.getAlbums()
-            albumsFlow.value = data
-        }
-    }
+    val albums = repository.getAlbums()
+        .stateIn(viewModelScope, SharingStarted.Lazily, null)
 
     companion object{
         private const val TAG = "AlbumViewModel"
