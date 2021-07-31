@@ -1,11 +1,12 @@
 package com.lig.intermediate.mvvmalbumsapp.data
 
-import android.util.Log
 import androidx.room.withTransaction
 import com.lig.intermediate.mvvmalbumsapp.api.AlbumsApi
 import com.lig.intermediate.mvvmalbumsapp.util.Resource
 import com.lig.intermediate.mvvmalbumsapp.util.networkBoundResource
 import kotlinx.coroutines.flow.Flow
+import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 class AlbumsRepository @Inject constructor(
@@ -14,7 +15,10 @@ class AlbumsRepository @Inject constructor(
 ) {
     private val albumsDao = albumsDb.albumsDao()
 
-    fun getAlbums(): Flow<Resource<List<Annonce>>> =
+    fun getAlbums(
+        onFetchSuccess: () -> Unit,
+        onFetchFailed: (Throwable) -> Unit
+    ): Flow<Resource<List<Annonce>>> =
         networkBoundResource(
             query = {
                 albumsDao.getAllAlbums()
@@ -23,9 +27,9 @@ class AlbumsRepository @Inject constructor(
                 val response = albumsApi.getAlbums()
                 response
             },
-            saveFetchResult = { albums->
+            saveFetchResult = { albums ->
                 val serverAlbums = albumsApi.getAlbums()
-                val localAlbums = serverAlbums.map { serverAnnoce->
+                val localAlbums = serverAlbums.map { serverAnnoce ->
                     Annonce(
                         id = serverAnnoce.id,
                         title = serverAnnoce.title,
@@ -39,10 +43,17 @@ class AlbumsRepository @Inject constructor(
                     albumsDao.deleteAllAlbums()
                     albumsDao.insertAlbums(localAlbums)
                 }
+            },
+            onFetchSuccess = onFetchSuccess,
+            onFetchFailed = { t ->
+                if(t !is HttpException && t !is IOException){
+                    throw t
+                }
+                onFetchFailed(t)
             }
         )
 
-    companion object{
+    companion object {
         private const val TAG = "AlbumsRepository"
     }
 }

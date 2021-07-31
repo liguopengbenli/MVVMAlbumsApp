@@ -1,6 +1,9 @@
 package com.lig.intermediate.mvvmalbumsapp.features.album
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -11,6 +14,8 @@ import com.lig.intermediate.mvvmalbumsapp.R
 import com.lig.intermediate.mvvmalbumsapp.databinding.FragmentAlbumsBinding
 import com.lig.intermediate.mvvmalbumsapp.shared.AlbumsAdapter
 import com.lig.intermediate.mvvmalbumsapp.util.Resource
+import com.lig.intermediate.mvvmalbumsapp.util.exhaustive
+import com.lig.intermediate.mvvmalbumsapp.util.showSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -41,15 +46,58 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
                     buttonRetry.isVisible = result.error != null && result.data.isNullOrEmpty()
                     textViewError.text = getString(
                         R.string.could_not_refresh,
-                        result.error?.localizedMessage?:getString(R.string.unknown_error_occurred)
+                        result.error?.localizedMessage ?: getString(R.string.unknown_error_occurred)
                     )
-                    albumsAdapter.submitList(result.data)
+                    albumsAdapter.submitList(result.data) {
+                        if (viewModel.pendingScrollingToTopAfterRefresh) {
+                            recyclerView.scrollToPosition(0)
+                            viewModel.pendingScrollingToTopAfterRefresh = false
+                        }
+                    }
                 }
             }
 
+            swipeRefreshLayout.setOnRefreshListener {
+                viewModel.onManualRefresh()
+            }
+
+            buttonRetry.setOnClickListener {
+                viewModel.onManualRefresh()
+            }
+
+            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                viewModel.events.collect { event ->
+                    when (event) {
+                        is AlbumViewModel.Event.ShowErrorMessage ->
+                            showSnackbar(
+                                getString(
+                                    R.string.could_not_refresh,
+                                    event.error.localizedMessage
+                                        ?: getString(R.string.unknown_error_occurred)
+                                )
+                            )
+                    }.exhaustive // turn it to expression
+                }
+            }
         }
+        setHasOptionsMenu(true)
+    }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.onStart()
+    }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_album, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.action_refresh -> {
+            viewModel.onManualRefresh()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 
     companion object {
