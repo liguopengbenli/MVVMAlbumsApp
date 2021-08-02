@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lig.intermediate.mvvmalbumsapp.R
 import com.lig.intermediate.mvvmalbumsapp.databinding.FragmentBookmarksBinding
@@ -28,7 +29,9 @@ class BookmarksFragment : Fragment(R.layout.fragment_bookmarks) {
 
         val bookmarksAdapter = AlbumsAdapter(
             onItemClick = {
-
+                val action =
+                    BookmarksFragmentDirections.actionBookmarksFragmentNavToDetailsFragment(it)
+                findNavController().navigate(action)
             },
             onBookmarkClick = { annonce ->
                 viewModel.onBookmarkClick(annonce)

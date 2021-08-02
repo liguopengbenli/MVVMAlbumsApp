@@ -7,4 +7,6 @@
     <dimen name="bookmark_width">36dp</dimen>
     <dimen name="bookmark_height">36dp</dimen>
     <dimen name="text_title_width">0dp</dimen>
+    <dimen name="small_padding">4dp</dimen>
+    <dimen name="detail_image_height">300dp</dimen>
 </resources>

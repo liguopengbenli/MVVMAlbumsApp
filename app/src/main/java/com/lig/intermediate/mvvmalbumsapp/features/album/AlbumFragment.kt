@@ -9,9 +9,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lig.intermediate.mvvmalbumsapp.R
 import com.lig.intermediate.mvvmalbumsapp.databinding.FragmentAlbumsBinding
+import com.lig.intermediate.mvvmalbumsapp.features.bookmarks.BookmarksFragmentDirections
 import com.lig.intermediate.mvvmalbumsapp.shared.AlbumsAdapter
 import com.lig.intermediate.mvvmalbumsapp.util.Resource
 import com.lig.intermediate.mvvmalbumsapp.util.exhaustive
@@ -29,7 +31,8 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
         val binding = FragmentAlbumsBinding.bind(view)
         val albumsAdapter = AlbumsAdapter(
             onItemClick = {
-
+                val action = AlbumFragmentDirections.actionAlbumFragmentNavToDetailsFragment(it)
+                findNavController().navigate(action)
             },
             onBookmarkClick = { annonce ->
                 viewModel.onBookmarkClick(annonce)
