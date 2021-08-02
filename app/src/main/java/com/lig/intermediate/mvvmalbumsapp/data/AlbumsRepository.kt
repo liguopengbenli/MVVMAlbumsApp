@@ -5,6 +5,7 @@ import com.lig.intermediate.mvvmalbumsapp.api.AlbumsApi
 import com.lig.intermediate.mvvmalbumsapp.util.Resource
 import com.lig.intermediate.mvvmalbumsapp.util.networkBoundResource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -29,15 +30,20 @@ class AlbumsRepository @Inject constructor(
                 response
             },
             saveFetchResult = { albums ->
+                val bookmarkedArticles = albumsDao.getAllBookMarkedAnnonces().first()
                 val serverAlbums = albumsApi.getAlbums()
+
                 val localAlbums = serverAlbums.map { serverAnnoce ->
+                    val isBookmarked = bookmarkedArticles.any { bookmarkedAnnonce->
+                        bookmarkedAnnonce.id == serverAnnoce.id
+                    }
                     Annonce(
                         id = serverAnnoce.id,
                         title = serverAnnoce.title,
                         albumId = serverAnnoce.albumId,
                         thumbnailUrl = serverAnnoce.thumbnailUrl,
                         url = serverAnnoce.url,
-                        isBookMarked = false
+                        isBookMarked = isBookmarked
                     )
                 }
                 albumsDb.withTransaction {
