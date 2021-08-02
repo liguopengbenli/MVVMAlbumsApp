@@ -30,7 +30,7 @@ class BookmarksFragment : Fragment(R.layout.fragment_bookmarks) {
         val bookmarksAdapter = AlbumsAdapter(
             onItemClick = {
                 val action =
-                    BookmarksFragmentDirections.actionBookmarksFragmentNavToDetailsFragment(it)
+                    BookmarksFragmentDirections.actionBookmarksFragmentToDetailsFragment(it)
                 findNavController().navigate(action)
             },
             onBookmarkClick = { annonce ->

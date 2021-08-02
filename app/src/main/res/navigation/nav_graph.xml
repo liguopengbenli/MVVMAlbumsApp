@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/nav_album">
+    app:startDestination="@id/album">
 
-    <include app:graph = "@navigation/nav_album"/>
-    <include app:graph = "@navigation/nav_bookmarks"/>
+    <include app:graph = "@navigation/album"/>
+    <include app:graph = "@navigation/bookmarks"/>
 
 </navigation>
 

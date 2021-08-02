@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
@@ -20,15 +21,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
-        navController = navHostFragment.navController
+            supportFragmentManager.findFragmentById(R.id.nav_host_container) as NavHostFragment
+        navController = navHostFragment.findNavController()
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav)
         bottomNavigationView.setupWithNavController(navController)
 
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.albumFragmentNav, R.id.bookmarksFragmentNav)
+            setOf(R.id.albumFragment, R.id.bookmarksFragment)
         )
 
         setupActionBarWithNavController(navController, appBarConfiguration)

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/nav_album"
+        android:id="@+id/album"
         android:icon="@drawable/ic_album"
         android:title="@string/album" />
 
     <item
-        android:id="@+id/nav_bookmarks"
+        android:id="@+id/bookmarks"
         android:icon="@drawable/ic_bookmarks"
         android:title="@string/bookmarks"/>
 

@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/small_margin"
                 android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 tools:layout_height="@dimen/detail_image_height"
                 tools:src="@mipmap/ic_launcher_round" />
 

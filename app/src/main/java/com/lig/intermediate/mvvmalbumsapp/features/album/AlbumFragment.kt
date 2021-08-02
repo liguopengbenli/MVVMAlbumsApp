@@ -10,6 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lig.intermediate.mvvmalbumsapp.R
 import com.lig.intermediate.mvvmalbumsapp.databinding.FragmentAlbumsBinding
@@ -29,9 +32,10 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
         super.onViewCreated(view, savedInstanceState)
 
         val binding = FragmentAlbumsBinding.bind(view)
+
         val albumsAdapter = AlbumsAdapter(
             onItemClick = {
-                val action = AlbumFragmentDirections.actionAlbumFragmentNavToDetailsFragment(it)
+                val action = AlbumFragmentDirections.actionAlbumFragmentToDetailsFragment(it)
                 findNavController().navigate(action)
             },
             onBookmarkClick = { annonce ->
@@ -92,6 +96,8 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
             }
         }
         setHasOptionsMenu(true)
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

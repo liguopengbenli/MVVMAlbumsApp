@@ -6,7 +6,7 @@
     <string name="bookmarks">Bookmarks</string>
     <string name="album">Album</string>
     <string name="title_bookmarks">Bookmarks</string>
-    <string name="title_album">Album</string>
+    <string name="title_album">Albums</string>
     <string name="album_id_text_fake">album 1</string>
     <string name="text_view_title_fake">Headline</string>
     <string name="text_view_error_fake">An error occurred</string>
@@ -14,4 +14,5 @@
     <string name="unknown_error_occurred">An unknown error occurred</string>
     <string name="could_not_refresh">Could not refresh: %s</string>
     <string name="delete_all_bookmarks">Delete all bookmarks</string>
+    <string name="detail">Detail</string>
 </resources>
