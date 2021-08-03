@@ -1,13 +1,15 @@
-package com.lig.intermediate.mvvmalbumsapp.shared
+package com.lig.intermediate.mvvmalbumsapp.features.bookmarks
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.lig.intermediate.mvvmalbumsapp.data.Annonce
 import com.lig.intermediate.mvvmalbumsapp.databinding.ItemAlbumBinding
+import com.lig.intermediate.mvvmalbumsapp.shared.AlbumsViewHolder
+import com.lig.intermediate.mvvmalbumsapp.shared.AnnonceComparator
 
 
-class AlbumsAdapter(
+class BookmarksAdapter(
     private val onItemClick: (Annonce) -> Unit,
     private val onBookmarkClick: (Annonce) -> Unit
 ): ListAdapter<Annonce, AlbumsViewHolder>(AnnonceComparator()) {

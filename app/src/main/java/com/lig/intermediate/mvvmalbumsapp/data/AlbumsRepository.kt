@@ -29,9 +29,8 @@ class AlbumsRepository @Inject constructor(
                 val response = albumsApi.getAlbums()
                 response
             },
-            saveFetchResult = { albums ->
+            saveFetchResult = { serverAlbums ->
                 val bookmarkedArticles = albumsDao.getAllBookMarkedAnnonces().first()
-                val serverAlbums = albumsApi.getAlbums()
 
                 val localAlbums = serverAlbums.map { serverAnnoce ->
                     val isBookmarked = bookmarkedArticles.any { bookmarkedAnnonce->

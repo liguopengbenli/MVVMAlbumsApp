@@ -24,7 +24,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val annonce = args.annonce as Annonce
+        val annonce = args.annonce
 
         val binding = FragmentDetailsBinding.bind(view)
         binding.apply {

@@ -13,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lig.intermediate.mvvmalbumsapp.R
 import com.lig.intermediate.mvvmalbumsapp.databinding.FragmentBookmarksBinding
-import com.lig.intermediate.mvvmalbumsapp.shared.AlbumsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -27,7 +26,7 @@ class BookmarksFragment : Fragment(R.layout.fragment_bookmarks) {
 
         val binding = FragmentBookmarksBinding.bind(view)
 
-        val bookmarksAdapter = AlbumsAdapter(
+        val bookmarksAdapter = BookmarksAdapter(
             onItemClick = {
                 val action =
                     BookmarksFragmentDirections.actionBookmarksFragmentToDetailsFragment(it)
