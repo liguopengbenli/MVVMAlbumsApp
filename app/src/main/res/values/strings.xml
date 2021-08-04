@@ -1,16 +1,17 @@
 <resources>
     <string name="app_name">MVVMAlbumsApp</string>
     <string name="retry">Retry</string>
-    <string name="refresh">Refresh</string>
+    <string name="refresh">Rafraîchir</string>
+    <string name="get_all_albums">Obtenir tous les albums</string>
     <string name="no_bookmarks">No bookmarks</string>
     <string name="bookmarks">Bookmarks</string>
     <string name="album">Album</string>
     <string name="title_bookmarks">Bookmarks</string>
     <string name="title_album">Albums</string>
-    <string name="album_id_text_fake">album 1</string>
+    <string name="album_id_text_fake">Album 1</string>
     <string name="text_view_title_fake">Headline</string>
     <string name="text_view_error_fake">An error occurred</string>
-    <string name="album_id_prefix">Album&#160;</string>
+    <string name="album_id_full">Album&#160;:%s </string>
     <string name="unknown_error_occurred">Une erreur inconnue est survenue</string>
     <string name="could_not_refresh">Impossible d\'actualiser : %s</string>
     <string name="delete_all_bookmarks">Supprimer tous les favoris</string>
