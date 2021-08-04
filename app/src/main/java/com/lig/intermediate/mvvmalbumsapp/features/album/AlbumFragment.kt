@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lig.intermediate.mvvmalbumsapp.R
@@ -26,6 +27,7 @@ import kotlinx.coroutines.flow.collect
 @AndroidEntryPoint
 class AlbumFragment : Fragment(R.layout.fragment_albums) {
     private val viewModel: AlbumViewModel by viewModels()
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,15 +44,16 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
             }
         )
 
-        albumsAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+        albumsAdapter.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
 
         binding.apply {
             recyclerView.apply {
                 adapter = albumsAdapter
-                layoutManager = LinearLayoutManager(requireContext())
+                layoutManager = GridLayoutManager(requireContext(),SPAN_COUNT)
                 setHasFixedSize(true)
-                itemAnimator?.changeDuration = 0 //remove the effet click
+                itemAnimator?.changeDuration = ANIMATION_DURATION //remove the effet click
 
             }
 
@@ -59,6 +62,8 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
                     val result = it ?: return@collect
                     swipeRefreshLayout.isRefreshing = result is Resource.Loading
                     recyclerView.isVisible = !result.data.isNullOrEmpty()
+                    textViewNoResults.isVisible =
+                        result.data.isNullOrEmpty() && result.error == null && !swipeRefreshLayout.isRefreshing
                     textViewError.isVisible = result.error != null && result.data.isNullOrEmpty()
                     buttonRetry.isVisible = result.error != null && result.data.isNullOrEmpty()
                     textViewError.text = getString(
@@ -122,3 +127,6 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
     }
 
 }
+
+private const val ANIMATION_DURATION = 0L
+private const val SPAN_COUNT = 2

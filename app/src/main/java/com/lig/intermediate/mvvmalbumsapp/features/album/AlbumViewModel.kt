@@ -1,5 +1,6 @@
 package com.lig.intermediate.mvvmalbumsapp.features.album
 
+import androidx.hilt.Assisted
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
@@ -19,7 +20,7 @@ class AlbumViewModel @Inject constructor(
     state: SavedStateHandle
 ) : ViewModel() {
 
-    private val albumId = state.getLiveData<Int?>("currentid", 1)
+    private val albumId = state.getLiveData<Int?>(ALBUM_ID_KEY, START_ALBUM_ID)
     private val eventChannel = Channel<Event>()
     val events = eventChannel.receiveAsFlow()
 
@@ -82,3 +83,6 @@ class AlbumViewModel @Inject constructor(
         private const val TAG = "AlbumViewModel"
     }
 }
+
+private const val START_ALBUM_ID = 1
+private const val ALBUM_ID_KEY = "currentid"
