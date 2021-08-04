@@ -1,10 +1,12 @@
 package com.lig.intermediate.mvvmalbumsapp.features.album
 
 import android.os.Bundle
+import android.text.InputType.TYPE_CLASS_NUMBER
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,6 +18,7 @@ import com.lig.intermediate.mvvmalbumsapp.R
 import com.lig.intermediate.mvvmalbumsapp.databinding.FragmentAlbumsBinding
 import com.lig.intermediate.mvvmalbumsapp.util.Resource
 import com.lig.intermediate.mvvmalbumsapp.util.exhaustive
+import com.lig.intermediate.mvvmalbumsapp.util.onQueryTextSubmit
 import com.lig.intermediate.mvvmalbumsapp.util.showSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -96,6 +99,14 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_album, menu)
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView = searchItem?.actionView as SearchView
+        searchView.inputType = TYPE_CLASS_NUMBER
+        searchView.queryHint = getString(R.string.search_hint)
+        searchView.onQueryTextSubmit { query ->
+            viewModel.onSearchQuerySubmit(query)
+            searchView.clearFocus()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {

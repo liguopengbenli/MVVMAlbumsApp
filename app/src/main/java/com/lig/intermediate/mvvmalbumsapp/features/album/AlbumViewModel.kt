@@ -1,24 +1,25 @@
 package com.lig.intermediate.mvvmalbumsapp.features.album
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.lig.intermediate.mvvmalbumsapp.data.AlbumsRepository
 import com.lig.intermediate.mvvmalbumsapp.data.Annonce
 import com.lig.intermediate.mvvmalbumsapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AlbumViewModel @Inject constructor(
-    private val repository: AlbumsRepository
+    private val repository: AlbumsRepository,
+    state: SavedStateHandle
 ) : ViewModel() {
 
+    private val albumId = state.getLiveData<Int?>("currentid", 1)
     private val eventChannel = Channel<Event>()
     val events = eventChannel.receiveAsFlow()
 
@@ -32,8 +33,11 @@ class AlbumViewModel @Inject constructor(
         }
     }
 
-    val albums = refreshTrigger.flatMapLatest { refresh ->
+    val albums = combine(refreshTrigger, albumId.asFlow()){ refresh, id ->
+        Pair(refresh, id)
+    }.flatMapLatest { (refresh, id) ->
         repository.getAlbums(
+            albumId = id,
             onFetchSuccess = {},
             onFetchFailed = { t ->
                 viewModelScope.launch {
@@ -60,6 +64,10 @@ class AlbumViewModel @Inject constructor(
         viewModelScope.launch {
             repository.updateAnnonce(updateAnnonce)
         }
+    }
+
+    fun onSearchQuerySubmit(query: Int) {
+        albumId.value = query
     }
 
     sealed class Event {

@@ -17,13 +17,14 @@ class AlbumsRepository @Inject constructor(
     private val albumsDao = albumsDb.albumsDao()
 
     fun getAlbums(
+        albumId: Int,
         forceRefresh: Boolean,
         onFetchSuccess: () -> Unit,
         onFetchFailed: (Throwable) -> Unit
     ): Flow<Resource<List<Annonce>>> =
         networkBoundResource(
             query = {
-                albumsDao.getAllAlbums()
+                albumsDao.getAlbumsById(albumId)
             },
             fetch = {
                 val response = albumsApi.getAlbums()

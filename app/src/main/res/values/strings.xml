@@ -15,4 +15,7 @@
     <string name="could_not_refresh">Could not refresh: %s</string>
     <string name="delete_all_bookmarks">Delete all bookmarks</string>
     <string name="detail">Detail</string>
+    <string name="search">Search</string>
+    <string name="search_hint">Trouver l\'élément avec l\'album ID</string>
+
 </resources>

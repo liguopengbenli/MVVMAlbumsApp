@@ -9,6 +9,9 @@ interface AlbumsDao {
     @Query("SELECT * FROM albums")
     fun getAllAlbums(): Flow<List<Annonce>>
 
+    @Query("SELECT * FROM albums Where :albumId = albumId ")
+    fun getAlbumsById(albumId: Int): Flow<List<Annonce>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAlbums(albums: List<Annonce>)
 
