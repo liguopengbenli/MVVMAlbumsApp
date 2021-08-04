@@ -25,7 +25,6 @@ class AlbumViewModel @Inject constructor(
     private val refreshTriggerChannel = Channel<Refresh>()
     private val refreshTrigger = refreshTriggerChannel.receiveAsFlow()
 
-    var pendingScrollingToTopAfterRefresh = false
 
     init {
         viewModelScope.launch {
@@ -35,10 +34,7 @@ class AlbumViewModel @Inject constructor(
 
     val albums = refreshTrigger.flatMapLatest { refresh ->
         repository.getAlbums(
-            onFetchSuccess = {
-                // Scroll to top when success
-                pendingScrollingToTopAfterRefresh = true
-            },
+            onFetchSuccess = {},
             onFetchFailed = { t ->
                 viewModelScope.launch {
                     eventChannel.send(Event.ShowErrorMessage(t))

@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.lig.intermediate.mvvmalbumsapp.R
 import com.lig.intermediate.mvvmalbumsapp.databinding.FragmentAlbumsBinding
 import com.lig.intermediate.mvvmalbumsapp.util.Resource
@@ -38,6 +39,9 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
             }
         )
 
+        albumsAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+
+
         binding.apply {
             recyclerView.apply {
                 adapter = albumsAdapter
@@ -58,12 +62,7 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
                         R.string.could_not_refresh,
                         result.error?.localizedMessage ?: getString(R.string.unknown_error_occurred)
                     )
-                    albumsAdapter.submitList(result.data) {
-                        if (viewModel.pendingScrollingToTopAfterRefresh) {
-                            recyclerView.scrollToPosition(0)
-                            viewModel.pendingScrollingToTopAfterRefresh = false
-                        }
-                    }
+                    albumsAdapter.submitList(result.data)
                 }
             }
 

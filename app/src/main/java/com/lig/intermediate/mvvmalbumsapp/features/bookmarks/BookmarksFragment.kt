@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.lig.intermediate.mvvmalbumsapp.R
 import com.lig.intermediate.mvvmalbumsapp.databinding.FragmentBookmarksBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,6 +37,9 @@ class BookmarksFragment : Fragment(R.layout.fragment_bookmarks) {
                 viewModel.onBookmarkClick(annonce)
             }
         )
+
+        bookmarksAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+
 
         binding.apply {
             recyclerView.apply {
