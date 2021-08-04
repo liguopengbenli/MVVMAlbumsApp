@@ -40,6 +40,15 @@
                 android:visibility="gone"
                 tools:visibility="visible" />
 
+            <ProgressBar
+                android:id="@+id/progress_bar_album"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                tools:visibility="visible"
+                />
+
             <Button
                 android:id="@+id/button_retry"
                 android:layout_width="wrap_content"

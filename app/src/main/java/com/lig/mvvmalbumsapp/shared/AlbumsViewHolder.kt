@@ -30,7 +30,7 @@ class AlbumsViewHolder(
 
             textViewTitle.text = annonce.title ?: ""
             textViewAlbumId.text =
-                itemView.context.getString(R.string.album_id_full, annonce.albumId.toString())
+                itemView.context.getString(R.string.album_id_full, annonce.albumId)
             imageViewBookmark.setImageResource(
                 when {
                     annonce.isBookMarked -> R.drawable.ic_bookmark_selected

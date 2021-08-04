@@ -22,16 +22,18 @@ class AlbumViewModel @Inject constructor(
     private val albumId = state.getLiveData<Int?>(ALBUM_ID_KEY, START_ALBUM_ID)
     private val eventChannel = Channel<Event>()
     val events = eventChannel.receiveAsFlow()
+    var pendingScrollingToTopAfterRefresh = false
+
 
     private val refreshTriggerChannel = Channel<Refresh>()
     private val refreshTrigger = refreshTriggerChannel.receiveAsFlow()
-
 
     init {
         viewModelScope.launch {
             refreshTriggerChannel.send(Refresh.FORCE)
         }
     }
+
 
     val albums = combine(refreshTrigger, albumId.asFlow()){ refresh, id ->
         Pair(refresh, id)
@@ -58,6 +60,12 @@ class AlbumViewModel @Inject constructor(
         }
     }
 
+    fun showAllAlbums() {
+        viewModelScope.launch {
+            eventChannel.send(Event.ShowAllAlbums)
+        }
+    }
+
     fun onBookmarkClick(annonce: Annonce) {
         val currentBookmarked = annonce.isBookMarked
         val updateAnnonce = annonce.copy(isBookMarked = !currentBookmarked)
@@ -72,6 +80,7 @@ class AlbumViewModel @Inject constructor(
 
     sealed class Event {
         data class ShowErrorMessage(val error: Throwable) : Event()
+        object ShowAllAlbums: Event()
     }
 
     enum class Refresh {

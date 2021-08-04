@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.collect
 @AndroidEntryPoint
 class AlbumFragment : Fragment(R.layout.fragment_albums) {
     private val viewModel: AlbumViewModel by viewModels()
+    private lateinit var searchView: SearchView
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,6 +49,7 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
 
 
         binding.apply {
+            progressBarAlbum.isVisible = true
             recyclerView.apply {
                 adapter = albumsAdapter
                 layoutManager = GridLayoutManager(requireContext(), SPAN_COUNT)
@@ -65,11 +67,18 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
                         result.data.isNullOrEmpty() && result.error == null && !swipeRefreshLayout.isRefreshing
                     textViewError.isVisible = result.error != null && result.data.isNullOrEmpty()
                     buttonRetry.isVisible = result.error != null && result.data.isNullOrEmpty()
+                    progressBarAlbum.isVisible = !recyclerView.isVisible && !swipeRefreshLayout.isRefreshing
+                            && !textViewNoResults.isVisible && !textViewError.isVisible
                     textViewError.text = getString(
                         R.string.could_not_refresh,
                         result.error?.localizedMessage ?: getString(R.string.unknown_error_occurred)
                     )
-                    albumsAdapter.submitList(result.data)
+                    albumsAdapter.submitList(result.data){
+                        if (viewModel.pendingScrollingToTopAfterRefresh) {
+                            recyclerView.scrollToPosition(0)
+                            viewModel.pendingScrollingToTopAfterRefresh = false
+                        }
+                    }
                 }
             }
 
@@ -92,23 +101,31 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
                                         ?: getString(R.string.unknown_error_occurred)
                                 )
                             )
+                        AlbumViewModel.Event.ShowAllAlbums -> {
+                            viewModel.onSearchQuerySubmit(GET_ALL_ALBUM_ID)
+                            searchView.onActionViewCollapsed()// close search view
+                            viewModel.pendingScrollingToTopAfterRefresh = true
+                            progressBarAlbum.isVisible = true
+
+                        }
                     }.exhaustive // turn it to expression
                 }
             }
         }
         setHasOptionsMenu(true)
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_album, menu)
         val searchItem = menu.findItem(R.id.action_search)
-        val searchView = searchItem?.actionView as SearchView
+        searchView = searchItem?.actionView as SearchView
         searchView.inputType = TYPE_CLASS_NUMBER
+
         searchView.queryHint = getString(R.string.search_hint)
+
         searchView.onQueryTextSubmit { query ->
             viewModel.onSearchQuerySubmit(query)
+            viewModel.pendingScrollingToTopAfterRefresh = true
             searchView.clearFocus()
         }
     }
@@ -119,11 +136,12 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
             true
         }
         R.id.action_get_all -> {
-            viewModel.onSearchQuerySubmit(GET_ALL_ALBUM_ID)
+            viewModel.showAllAlbums()
             true
         }
         else -> super.onOptionsItemSelected(item)
     }
+
 
     companion object {
         private const val TAG = "AlbumFragment"
