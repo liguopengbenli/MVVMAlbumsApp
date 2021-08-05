@@ -72,7 +72,9 @@ class AlbumViewModel @Inject constructor(
     }
 
     fun nextPage() {
-        albumId.value = albumId.value?.plus(1)
+        if (albumId.value != END_ALBUM_ID) {
+            albumId.value = albumId.value?.plus(1)
+        }
     }
 
     fun previousPage() {
@@ -95,4 +97,5 @@ class AlbumViewModel @Inject constructor(
 }
 
 private const val START_ALBUM_ID = 1
+private const val END_ALBUM_ID = 100
 private const val ALBUM_ID_KEY = "currentid"
