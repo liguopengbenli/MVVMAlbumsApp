@@ -57,16 +57,15 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
                 layoutManager = GridLayoutManager(requireContext(), SPAN_COUNT)
                 setHasFixedSize(true)
                 itemAnimator?.changeDuration = ANIMATION_DURATION //remove the effet click
-                // Add pagination manuel using scrolling and album Id
+                // Add custom pagination system using scrolling and album Id
                 val scrollListener = object : RecyclerView.OnScrollListener() {
                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                         super.onScrolled(recyclerView, dx, dy)
                         val lastVisibleItemPosition =
                             (layoutManager as GridLayoutManager).findLastVisibleItemPosition()
                         val totalItemCount = recyclerView?.layoutManager?.itemCount
-                        if (totalItemCount == lastVisibleItemPosition + 1 && tagglePage) {
-                            Log.d(TAG, "lig onScroll!!!!")
-                            //recyclerView.removeOnScrollListener(this)
+                        if (totalItemCount == lastVisibleItemPosition + 1 && tagglePage && lastVisibleItemPosition != -1) {
+                            Log.d(TAG, "lastVisibleItemPosition =$lastVisibleItemPosition")
                             tagglePage = false
                             viewModel.nextPage()
                         }

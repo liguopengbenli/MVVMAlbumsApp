@@ -72,13 +72,13 @@ class AlbumViewModel @Inject constructor(
     }
 
     fun nextPage() {
-        if (albumId.value != END_ALBUM_ID) {
+        if (albumId.value in START_ALBUM_ID until END_ALBUM_ID) {
             albumId.value = albumId.value?.plus(1)
         }
     }
 
     fun previousPage() {
-        if (albumId.value != START_ALBUM_ID) {
+        if (albumId.value in (START_ALBUM_ID + 1).rangeTo(END_ALBUM_ID)) {
             albumId.value = albumId.value?.minus(1)
         }
     }

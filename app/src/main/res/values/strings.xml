@@ -3,10 +3,10 @@
     <string name="retry">Retry</string>
     <string name="refresh">Rafraîchir</string>
     <string name="get_all_albums">Obtenir tous les albums</string>
-    <string name="no_bookmarks">No bookmarks</string>
-    <string name="bookmarks">Bookmarks</string>
+    <string name="no_bookmarks">Aucun favoris</string>
+    <string name="bookmarks">Favoris</string>
     <string name="album">Album</string>
-    <string name="title_bookmarks">Bookmarks</string>
+    <string name="title_bookmarks">Favoris</string>
     <string name="title_album">Albums</string>
     <string name="album_id_text_fake">Album 1</string>
     <string name="text_view_title_fake">Headline</string>
