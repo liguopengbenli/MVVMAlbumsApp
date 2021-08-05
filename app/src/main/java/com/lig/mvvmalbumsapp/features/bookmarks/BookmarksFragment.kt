@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lig.mvvmalbumsapp.R
 import com.lig.mvvmalbumsapp.databinding.FragmentBookmarksBinding
+import com.lig.mvvmalbumsapp.shared.AlbumsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -27,7 +28,7 @@ class BookmarksFragment : Fragment(R.layout.fragment_bookmarks) {
 
         val binding = FragmentBookmarksBinding.bind(view)
 
-        val bookmarksAdapter = BookmarksAdapter(
+        val bookmarksAdapter = AlbumsAdapter(
             onItemClick = {
                 val action =
                     BookmarksFragmentDirections.actionBookmarksFragmentToDetailsFragment(it)

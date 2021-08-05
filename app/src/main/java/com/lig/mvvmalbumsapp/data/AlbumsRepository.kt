@@ -39,7 +39,7 @@ class AlbumsRepository @Inject constructor(
                 val bookmarkedArticles = albumsDao.getAllBookMarkedAnnonces().first()
 
                 val localAlbums = serverAlbums.map { serverAnnoce ->
-                    val isBookmarked = bookmarkedArticles.any { bookmarkedAnnonce->
+                    val isBookmarked = bookmarkedArticles.any { bookmarkedAnnonce ->
                         bookmarkedAnnonce.id == serverAnnoce.id
                     }
                     Annonce(
@@ -61,7 +61,7 @@ class AlbumsRepository @Inject constructor(
             },
             onFetchSuccess = onFetchSuccess,
             onFetchFailed = { t ->
-                if(t !is HttpException && t !is IOException){
+                if (t !is HttpException && t !is IOException) {
                     throw t
                 }
                 onFetchFailed(t)

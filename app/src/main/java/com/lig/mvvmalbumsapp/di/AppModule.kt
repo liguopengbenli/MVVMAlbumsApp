@@ -33,6 +33,6 @@ object AppModule {
     @Singleton
     fun provideDatabase(application: Application): AlbumsDatabase =
         Room.databaseBuilder(application, AlbumsDatabase::class.java, "albums database")
-            .fallbackToDestructiveMigration() //demo propose TODO remove
+            //.fallbackToDestructiveMigration() dev propose
             .build()
 }

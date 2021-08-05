@@ -45,14 +45,14 @@ class AlbumsViewHolder(
         binding.apply {
             root.setOnClickListener {
                 val position = bindingAdapterPosition
-                if(position != RecyclerView.NO_POSITION){ // important, because the item may be deleted
+                if (position != RecyclerView.NO_POSITION) { // important, because the item may be deleted
                     onItemClick(position)
                 }
             }
 
             imageViewBookmark.setOnClickListener {
                 val position = bindingAdapterPosition
-                if(position != RecyclerView.NO_POSITION){ // important, because the item may be deleted
+                if (position != RecyclerView.NO_POSITION) { // important, because the item may be deleted
                     onBookmarkClick(position)
                 }
             }

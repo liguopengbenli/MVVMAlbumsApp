@@ -1,4 +1,4 @@
-package com.lig.mvvmalbumsapp.features.bookmarks
+package com.lig.mvvmalbumsapp.shared
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,22 +9,22 @@ import com.lig.mvvmalbumsapp.shared.AlbumsViewHolder
 import com.lig.mvvmalbumsapp.shared.AnnonceComparator
 
 
-class BookmarksAdapter(
+class AlbumsAdapter(
     private val onItemClick: (Annonce) -> Unit,
     private val onBookmarkClick: (Annonce) -> Unit
-): ListAdapter<Annonce, AlbumsViewHolder>(AnnonceComparator()) {
+) : ListAdapter<Annonce, AlbumsViewHolder>(AnnonceComparator()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumsViewHolder {
         val binding = ItemAlbumBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return AlbumsViewHolder(binding,
-            onItemClick = { position->
+            onItemClick = { position ->
                 val annonce = getItem(position)
-                if(annonce != null){
+                if (annonce != null) {
                     onItemClick(annonce)
                 }
             },
-            onBookmarkClick = { position->
+            onBookmarkClick = { position ->
                 val annonce = getItem(position)
-                if(annonce != null){
+                if (annonce != null) {
                     onBookmarkClick(annonce)
                 }
             }

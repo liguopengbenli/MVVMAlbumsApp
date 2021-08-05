@@ -35,7 +35,7 @@ class AlbumViewModel @Inject constructor(
     }
 
 
-    val albums = combine(refreshTrigger, albumId.asFlow()){ refresh, id ->
+    val albums = combine(refreshTrigger, albumId.asFlow()) { refresh, id ->
         Pair(refresh, id)
     }.flatMapLatest { (refresh, id) ->
         repository.getAlbums(
@@ -80,7 +80,7 @@ class AlbumViewModel @Inject constructor(
 
     sealed class Event {
         data class ShowErrorMessage(val error: Throwable) : Event()
-        object ShowAllAlbums: Event()
+        object ShowAllAlbums : Event()
     }
 
     enum class Refresh {
@@ -91,6 +91,7 @@ class AlbumViewModel @Inject constructor(
         private const val TAG = "AlbumViewModel"
     }
 }
+
 const val GET_ALL_ALBUM_ID = -1
 private const val START_ALBUM_ID = GET_ALL_ALBUM_ID
 private const val ALBUM_ID_KEY = "currentid"

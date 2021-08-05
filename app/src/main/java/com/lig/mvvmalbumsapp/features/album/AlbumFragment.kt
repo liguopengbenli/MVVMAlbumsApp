@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lig.mvvmalbumsapp.R
 import com.lig.mvvmalbumsapp.databinding.FragmentAlbumsBinding
+import com.lig.mvvmalbumsapp.shared.AlbumsAdapter
 import com.lig.mvvmalbumsapp.util.Resource
 import com.lig.mvvmalbumsapp.util.exhaustive
 import com.lig.mvvmalbumsapp.util.onQueryTextSubmit
@@ -47,7 +48,6 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
         albumsAdapter.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
-
         binding.apply {
             progressBarAlbum.isVisible = true
             recyclerView.apply {
@@ -67,15 +67,16 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
                         result.data.isNullOrEmpty() && result.error == null && !swipeRefreshLayout.isRefreshing
                     textViewError.isVisible = result.error != null && result.data.isNullOrEmpty()
                     buttonRetry.isVisible = result.error != null && result.data.isNullOrEmpty()
-                    progressBarAlbum.isVisible = !recyclerView.isVisible && !swipeRefreshLayout.isRefreshing
-                            && !textViewNoResults.isVisible && !textViewError.isVisible
+                    progressBarAlbum.isVisible =
+                        !recyclerView.isVisible && !swipeRefreshLayout.isRefreshing
+                                && !textViewNoResults.isVisible && !textViewError.isVisible
                     textViewError.text = getString(
                         R.string.could_not_refresh,
                         result.error?.localizedMessage ?: getString(R.string.unknown_error_occurred)
                     )
-                    albumsAdapter.submitList(result.data){
+                    albumsAdapter.submitList(result.data) {
                         if (viewModel.pendingScrollingToTopAfterRefresh) {
-                            recyclerView.scrollToPosition(0)
+                            recyclerView.scrollToPosition(INIT_POSITION)
                             viewModel.pendingScrollingToTopAfterRefresh = false
                         }
                     }
@@ -151,3 +152,4 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
 
 private const val ANIMATION_DURATION = 0L
 private const val SPAN_COUNT = 2
+private const val INIT_POSITION = 0

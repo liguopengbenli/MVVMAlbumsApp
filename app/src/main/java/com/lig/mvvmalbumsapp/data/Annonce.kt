@@ -14,4 +14,4 @@ data class Annonce(
     val thumbnailUrl: String?,
     val url: String?,
     val isBookMarked: Boolean
-): Parcelable
+) : Parcelable

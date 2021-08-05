@@ -63,7 +63,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 }).into(imageView)
 
             textViewTitle.text = annonce.title
-            textViewAlbumId.text = requireContext().getString(R.string.album_id_full,  annonce.albumId)
+            textViewAlbumId.text =
+                requireContext().getString(R.string.album_id_full, annonce.albumId)
 
         }
 
