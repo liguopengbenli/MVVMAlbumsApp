@@ -15,4 +15,4 @@ Test technique LBC
 - Couche business
 - Scroll sauvegardé à la rotation 
 
-Au niveau des technos : kotlin, coroutines, room, data binding, MVVM, dagger/hilt
+Au niveau des technos : kotlin, Jetpack, coroutines, room, data binding, MVVM, dagger/hilt
