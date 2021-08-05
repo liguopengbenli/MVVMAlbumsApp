@@ -30,10 +30,9 @@ class AlbumViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            refreshTriggerChannel.send(Refresh.FORCE)
+            refreshTriggerChannel.send(Refresh.FORCE) // trigger the first page
         }
     }
-
 
     val albums = combine(refreshTrigger, albumId.asFlow()) { refresh, id ->
         Pair(refresh, id)
@@ -60,12 +59,6 @@ class AlbumViewModel @Inject constructor(
         }
     }
 
-    fun showAllAlbums() {
-        viewModelScope.launch {
-            eventChannel.send(Event.ShowAllAlbums)
-        }
-    }
-
     fun onBookmarkClick(annonce: Annonce) {
         val currentBookmarked = annonce.isBookMarked
         val updateAnnonce = annonce.copy(isBookMarked = !currentBookmarked)
@@ -78,9 +71,18 @@ class AlbumViewModel @Inject constructor(
         albumId.value = query
     }
 
+    fun nextPage() {
+        albumId.value = albumId.value?.plus(1)
+    }
+
+    fun previousPage() {
+        if (albumId.value != START_ALBUM_ID) {
+            albumId.value = albumId.value?.minus(1)
+        }
+    }
+
     sealed class Event {
         data class ShowErrorMessage(val error: Throwable) : Event()
-        object ShowAllAlbums : Event()
     }
 
     enum class Refresh {
@@ -92,6 +94,5 @@ class AlbumViewModel @Inject constructor(
     }
 }
 
-const val GET_ALL_ALBUM_ID = -1
-private const val START_ALBUM_ID = GET_ALL_ALBUM_ID
+private const val START_ALBUM_ID = 1
 private const val ALBUM_ID_KEY = "currentid"

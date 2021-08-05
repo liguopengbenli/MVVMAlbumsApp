@@ -2,7 +2,6 @@ package com.lig.mvvmalbumsapp.data
 
 import androidx.room.withTransaction
 import com.lig.mvvmalbumsapp.api.AlbumsApi
-import com.lig.mvvmalbumsapp.features.album.GET_ALL_ALBUM_ID
 import com.lig.mvvmalbumsapp.util.Resource
 import com.lig.mvvmalbumsapp.util.networkBoundResource
 import kotlinx.coroutines.flow.Flow
@@ -25,11 +24,7 @@ class AlbumsRepository @Inject constructor(
     ): Flow<Resource<List<Annonce>>> =
         networkBoundResource(
             query = {
-                if (albumId == GET_ALL_ALBUM_ID) {
-                    albumsDao.getAllAlbums()
-                } else {
-                    albumsDao.getAlbumsById(albumId)
-                }
+                albumsDao.getAlbumsById(albumId)
             },
             fetch = {
                 val response = albumsApi.getAlbums()

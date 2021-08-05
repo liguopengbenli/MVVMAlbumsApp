@@ -2,6 +2,7 @@ package com.lig.mvvmalbumsapp.features.album
 
 import android.os.Bundle
 import android.text.InputType.TYPE_CLASS_NUMBER
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -28,6 +29,7 @@ import kotlinx.coroutines.flow.collect
 class AlbumFragment : Fragment(R.layout.fragment_albums) {
     private val viewModel: AlbumViewModel by viewModels()
     private lateinit var searchView: SearchView
+    private var tagglePage = true
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -55,7 +57,22 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
                 layoutManager = GridLayoutManager(requireContext(), SPAN_COUNT)
                 setHasFixedSize(true)
                 itemAnimator?.changeDuration = ANIMATION_DURATION //remove the effet click
-
+                // Add pagination manuel using scrolling and album Id
+                val scrollListener = object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        super.onScrolled(recyclerView, dx, dy)
+                        val lastVisibleItemPosition =
+                            (layoutManager as GridLayoutManager).findLastVisibleItemPosition()
+                        val totalItemCount = recyclerView?.layoutManager?.itemCount
+                        if (totalItemCount == lastVisibleItemPosition + 1 && tagglePage) {
+                            Log.d(TAG, "lig onScroll!!!!")
+                            //recyclerView.removeOnScrollListener(this)
+                            tagglePage = false
+                            viewModel.nextPage()
+                        }
+                    }
+                }
+                addOnScrollListener(scrollListener)
             }
 
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -75,6 +92,7 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
                         result.error?.localizedMessage ?: getString(R.string.unknown_error_occurred)
                     )
                     albumsAdapter.submitList(result.data) {
+                        tagglePage = true
                         if (viewModel.pendingScrollingToTopAfterRefresh) {
                             recyclerView.scrollToPosition(INIT_POSITION)
                             viewModel.pendingScrollingToTopAfterRefresh = false
@@ -85,6 +103,7 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
 
             swipeRefreshLayout.setOnRefreshListener {
                 viewModel.onManualRefresh()
+                viewModel.previousPage()
             }
 
             buttonRetry.setOnClickListener {
@@ -102,19 +121,13 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
                                         ?: getString(R.string.unknown_error_occurred)
                                 )
                             )
-                        AlbumViewModel.Event.ShowAllAlbums -> {
-                            viewModel.onSearchQuerySubmit(GET_ALL_ALBUM_ID)
-                            searchView.onActionViewCollapsed()// close search view
-                            viewModel.pendingScrollingToTopAfterRefresh = true
-                            progressBarAlbum.isVisible = true
-
-                        }
                     }.exhaustive // turn it to expression
                 }
             }
         }
         setHasOptionsMenu(true)
     }
+    
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_album, menu)
@@ -134,10 +147,6 @@ class AlbumFragment : Fragment(R.layout.fragment_albums) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_refresh -> {
             viewModel.onManualRefresh()
-            true
-        }
-        R.id.action_get_all -> {
-            viewModel.showAllAlbums()
             true
         }
         else -> super.onOptionsItemSelected(item)
