@@ -14,3 +14,5 @@ Test technique LBC
 - Sensibilité UX / UI
 - Couche business
 - Scroll sauvegardé à la rotation 
+
+Au niveau des technos : kotlin, coroutines, room, data binding, MVVM, dagger/hilt
