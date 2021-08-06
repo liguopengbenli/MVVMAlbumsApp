@@ -18,13 +18,20 @@ MVVM,  le découpage des responsabilités des différentes couches, aligner au p
 #### Les choix des librairies
 
 1. Jetpack Navigation component: La simplicité, la sûreté et la visibilité. la dernière version prend en charge la navigation du bas, Gestion des transactions des fragments et Safe Args donne la surté de la transition des donnés entre les fragments.
-2. 
+2. Retrofit est basée sur le client REST OKHttp qui est simple à faire des appels à des webservices REST
+3. Room, une librairie fournissant des outils pour créer, requêter et manipuler plus facilement des bases de données SQLite, base de données local
+4. Glide, qui gère un cache d’images et aussi erreur d'affichage
+5. Dagger/Hilt, réutilisabilité des classes et découplage des dépendances (design principe), Hilt est une bibliothèque qui utilise Dagger en interne et simplifie simplement son utilisation, notalement pour l'injection de viewmodel
+6. Coroutine pour effectuer des tâches asynchrones (faire passer en arrière plan les tâches "bloquantes" qui ralentiraient le thread UI principal). Les coroutines sont légères et rapides, une coroutine peut fournir un très haut niveau de concurrence avec un très faible surcoût. Il fonctionne également très bien avec les librairies avant. 
+7. ViewBinding, simplification du code et vérification des élements dans le temp de la compilation au lieu d'exécution
 
-- La gestion des changements de configuration 
-- Les performances de l'application 
-- Les tests
-- Sensibilité UX / UI
-- Couche business
-- Scroll sauvegardé à la rotation 
+ 
+#### Les performances de l'application 
+* La pagination se fait manuellement sans utiliser la Paging 3 lib pour la simplicité et compatibilité de la gestion des erreur avec networkboundRessource  
+* Gestion des "process death" avec SavedStateHandle
+* Résister au changement de configuration avec viewmodel 
+* Réactivité de UI avec couroutine channel and flow 
+* Offline support avec Room 
+* Error handling avec networkBoundResource, les erreurs va gérer dans repository et envoyer en tant que les events dans un couroutine Channel   
 
-Au niveau des technos : kotlin, Jetpack, coroutines, room, data binding, MVVM, dagger/hilt
+Au niveau des technos mots clés : kotlin, Jetpack, coroutines, room, data binding, retrofit, MVVM, dagger/hilt
