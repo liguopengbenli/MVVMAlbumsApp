@@ -23,7 +23,7 @@ MVVM,  le découpage des responsabilités des différentes couches, aligner au p
 4. Glide, qui gère un cache d’images et aussi erreur d'affichage
 5. Dagger/Hilt, réutilisabilité des classes et découplage des dépendances (design principe), Hilt est une bibliothèque qui utilise Dagger en interne et simplifie simplement son utilisation, notamment pour l'injection de viewmodel
 6. Coroutine pour effectuer des tâches asynchrones (faire passer en arrière-plan les tâches "bloquantes" qui ralentiraient le thread UI principal). Les coroutines sont légères et rapides, une coroutine peut fournir un très haut niveau de concurrence avec un très faible surcoût. Il fonctionne également très bien avec les librairies mentionées avant. 
-7. ViewBinding, simplification du code et vérification des éléments dans le temps de la compilation au lieu d'exécution
+7. ViewBinding, simplification du code et vérification des éléments (null safety, type safety) dans le temps de la compilation au lieu d'exécution
 
  
 #### Les performances de l'application 
